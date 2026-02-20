@@ -84,6 +84,22 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+vim.g.VM_default_mappings = 0
+vim.g.VM_maps = {
+  ['Add Cursor Down'] = '<Leader>j',
+  ['Add Cursor Up'] = '<Leader>p',
+  ['Select All'] = '<Leader>A',
+  ['Find Under'] = '<Leader>n',
+}
+
+-- let g:VM_maps = {}
+-- let g:VM_maps['Find Under']                  = '<C-n>'
+-- let g:VM_maps['Find Subword Under']          = '<C-n>'
+-- let g:VM_maps["Select All"]                  = '\\A'
+-- let g:VM_maps["Start Regex Search"]          = '\\/'
+-- let g:VM_maps["Add Cursor Down"]             = '<C-Down>'
+-- let g:VM_maps["Add Cursor Up"]               = '<C-Up>'
+-- let g:VM_maps["Add Cursor At Pos"]           = '\\\'
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -91,7 +107,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -212,11 +228,7 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>')
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -256,8 +268,14 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added via a link or github org/name. To run setup automatically, use `opts = {}`
+  { 'tiagovla/scope.nvim', config = true },
   { 'NMAC427/guess-indent.nvim', opts = {} },
-
+  { 'mg979/vim-visual-multi' },
+  {
+    'carlos-algms/agentic.nvim',
+    opts = { debug = true, provider = 'opencode-acp', acp_providers = { ['gemini-acp'] = { name = 'Qwen', command = 'qwen', args = { '--acp' } } } },
+    keys = { { '<C-\\>', function() require('agentic').toggle() end, mode = { 'n', 'v', 'i' }, desc = 'Toggle Agentic Chat' } },
+  },
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:
   --    {
@@ -395,6 +413,7 @@ require('lazy').setup({
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'scope')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -614,7 +633,7 @@ require('lazy').setup({
       -- You can press `g?` for help in this menu.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'lua_ls', -- Lua Language server
+        'lua-language-server', -- Lua Language server
         'stylua', -- Used to format Lua code
         -- You can add other tools here that you want Mason to install
       })
@@ -686,6 +705,18 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        javascriptreact = { 'prettier' },
+        javascript = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        typescript = { 'prettier' },
+        html = { 'prettier' },
+        css = { 'prettier' },
+        markdown = { 'prettier' },
+        python = { 'black' },
+        c = { 'clang_format' },
+        cpp = { 'clang_format' },
+        go = { 'goimports' },
+        ruby = { 'rubocop' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -874,7 +905,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -911,3 +942,6 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldlevel = 99
