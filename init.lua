@@ -972,6 +972,18 @@ require('lazy').setup({
   },
 })
 
+vim.keymap.set('n', '<leader>gg', require('global-note').toggle_note, {
+  desc = '[G]lobal note',
+  noremap = true,
+  silent = true,
+})
+
+vim.keymap.set('n', '<leader>tt', function() require('global-note').toggle_note 'todo' end, {
+  desc = '[G]lobal note',
+  noremap = true,
+  silent = true,
+})
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 vim.opt.foldmethod = 'expr'
