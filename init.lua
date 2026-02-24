@@ -268,6 +268,38 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added via a link or github org/name. To run setup automatically, use `opts = {}`
+  {
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      require('dashboard').setup {
+        -- config
+      }
+    end,
+    dependencies = { { 'nvim-tree/nvim-web-devicons' } },
+  },
+  {
+    'bngarren/checkmate.nvim',
+    ft = 'markdown', -- Lazy loads for Markdown files matching patterns in 'files'
+    opts = {
+      -- files = { "*.md" }, -- any .md file (instead of defaults)
+    },
+  },
+  {
+    'backdround/global-note.nvim',
+    opts = {
+      filename = 'general.md',
+      directory = '~/Documents/notes/',
+
+      additional_presets = {
+        todo = {
+          filename = 'todo.md',
+          title = 'List of todo',
+          command_name = 'TodoNote',
+        },
+      },
+    },
+  },
   { 'tiagovla/scope.nvim', config = true },
   { 'NMAC427/guess-indent.nvim', opts = {} },
   { 'mg979/vim-visual-multi' },
