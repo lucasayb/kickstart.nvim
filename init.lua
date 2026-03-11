@@ -306,7 +306,7 @@ require('lazy').setup({
   {
     'carlos-algms/agentic.nvim',
     opts = { debug = true, provider = 'opencode-acp', acp_providers = { ['gemini-acp'] = { name = 'Qwen', command = 'qwen', args = { '--acp' } } } },
-    keys = { { '<C-\\>', function() require('agentic').toggle() end, mode = { 'n', 'v', 'i' }, desc = 'Toggle Agentic Chat' } },
+    keys = { { '<C-\\>', function() require('agentic').toggle() end, mode = { 'n', 'v', 'i' }, desc = 'Toggle Agentic Chat' }, { '<C-e>', function () require('agentic').stop_generation() end, mode = { 'n', 'v', 'i' }, desc = 'Stop generation'} },
   },
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:
