@@ -180,6 +180,11 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Fold settings
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldlevel = 99
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -229,6 +234,18 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>')
+
+vim.keymap.set('n', '<leader>gg', require('global-note').toggle_note, {
+  desc = '[G]lobal note',
+  noremap = true,
+  silent = true,
+})
+
+vim.keymap.set('n', '<leader>tt', function() require('global-note').toggle_note 'todo' end, {
+  desc = '[T]oggle [T]odo note',
+  noremap = true,
+  silent = true,
+})
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -306,7 +323,10 @@ require('lazy').setup({
   {
     'carlos-algms/agentic.nvim',
     opts = { debug = true, provider = 'opencode-acp', acp_providers = { ['gemini-acp'] = { name = 'Qwen', command = 'qwen', args = { '--acp' } } } },
-    keys = { { '<C-\\>', function() require('agentic').toggle() end, mode = { 'n', 'v', 'i' }, desc = 'Toggle Agentic Chat' }, { '<C-e>', function () require('agentic').stop_generation() end, mode = { 'n', 'v', 'i' }, desc = 'Stop generation'} },
+    keys = {
+      { '<C-\\>', function() require('agentic').toggle() end, mode = { 'n', 'v', 'i' }, desc = 'Toggle Agentic Chat' },
+      { '<C-e>', function() require('agentic').stop_generation() end, mode = { 'n', 'v', 'i' }, desc = 'Stop generation' },
+    },
   },
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:
@@ -373,7 +393,6 @@ require('lazy').setup({
   -- you do for a plugin at the top level, you can do for a dependency.
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
-
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     -- By default, Telescope is included and acts as your picker for everything.
@@ -915,7 +934,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     config = function()
-      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local filetypes = { 'json', 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
@@ -972,20 +991,5 @@ require('lazy').setup({
   },
 })
 
-vim.keymap.set('n', '<leader>gg', require('global-note').toggle_note, {
-  desc = '[G]lobal note',
-  noremap = true,
-  silent = true,
-})
-
-vim.keymap.set('n', '<leader>tt', function() require('global-note').toggle_note 'todo' end, {
-  desc = '[G]lobal note',
-  noremap = true,
-  silent = true,
-})
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-vim.opt.foldlevel = 99
