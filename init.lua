@@ -306,7 +306,10 @@ require('lazy').setup({
   {
     'carlos-algms/agentic.nvim',
     opts = { debug = true, provider = 'opencode-acp', acp_providers = { ['gemini-acp'] = { name = 'Qwen', command = 'qwen', args = { '--acp' } } } },
-    keys = { { '<C-\\>', function() require('agentic').toggle() end, mode = { 'n', 'v', 'i' }, desc = 'Toggle Agentic Chat' }, { '<C-e>', function () require('agentic').stop_generation() end, mode = { 'n', 'v', 'i' }, desc = 'Stop generation'} },
+    keys = {
+      { '<C-\\>', function() require('agentic').toggle() end, mode = { 'n', 'v', 'i' }, desc = 'Toggle Agentic Chat' },
+      { '<C-e>', function() require('agentic').stop_generation() end, mode = { 'n', 'v', 'i' }, desc = 'Stop generation' },
+    },
   },
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:
@@ -915,7 +918,22 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     config = function()
-      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local filetypes = {
+        'javascript',
+        'typescript',
+        'json',
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+      }
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
