@@ -648,7 +648,7 @@ require('lazy').setup({
       --  See `:help lsp-config` for information about keys and how to configure
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
         --
@@ -678,6 +678,7 @@ require('lazy').setup({
         'typescript-language-server',
         'lua-language-server', -- Lua Language server
         'stylua', -- Used to format Lua code
+        'gopls',
         -- You can add other tools here that you want Mason to install
       }
 
@@ -1037,3 +1038,7 @@ vim.keymap.set('n', '<leader>tt', function() require('global-note').toggle_note 
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.foldlevel = 99
+
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
