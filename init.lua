@@ -665,6 +665,7 @@ require('lazy').setup({
             'typescriptreact',
           },
         },
+        jsonls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -679,6 +680,7 @@ require('lazy').setup({
         'lua-language-server', -- Lua Language server
         'stylua', -- Used to format Lua code
         'gopls',
+        'json-lsp',
         -- You can add other tools here that you want Mason to install
       }
 
