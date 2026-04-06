@@ -90,6 +90,7 @@ vim.g.VM_maps = {
   ['Add Cursor Up'] = '<Leader>p',
   ['Select All'] = '<Leader>A',
   ['Find Under'] = '<Leader>n',
+  ['Find Subword Under'] = '<Leader>n',
 }
 
 -- let g:VM_maps = {}
@@ -267,6 +268,36 @@ rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  {
+    'echasnovski/mini.hipatterns',
+    event = 'BufReadPre',
+    opts = function()
+      local hi = require 'mini.hipatterns'
+
+      return {
+        highlighters = {
+          priority_high = {
+            pattern = '@priority%(high%)',
+            group = 'DiagnosticError',
+          },
+          priority_medium = {
+            pattern = '@priority%(medium%)',
+            group = 'DiagnosticWarn',
+          },
+          priority_low = {
+            pattern = '@priority%(low%)',
+            group = 'DiagnosticInfo',
+          },
+        },
+      }
+    end,
+  },
+  {
+
+    'Piotr1215/presenterm.nvim',
+    build = false, -- Disable rockspec/luarocks build
+    opts = {}, -- Uses all defaults, auto-detects picker
+  },
   -- NOTE: Plugins can be added via a link or github org/name. To run setup automatically, use `opts = {}`
   {
     'nvimdev/dashboard-nvim',
@@ -279,23 +310,26 @@ require('lazy').setup({
     dependencies = { { 'nvim-tree/nvim-web-devicons' } },
   },
   {
-    'bngarren/checkmate.nvim',
-    ft = 'markdown', -- Lazy loads for Markdown files matching patterns in 'files'
-    opts = {
-      -- files = { "*.md" }, -- any .md file (instead of defaults)
-    },
-  },
-  {
     'backdround/global-note.nvim',
     opts = {
       filename = 'general.md',
       directory = '~/Documents/notes/',
 
       additional_presets = {
+        note_of_the_day = {
+          filename = os.date '%Y/%m/%Y-%m-%d.md',
+          title = 'Note of the day',
+          command_name = 'NoteDay',
+        },
         todo = {
           filename = 'todo.md',
           title = 'List of todo',
           command_name = 'TodoNote',
+        },
+        keymaps = {
+          filename = 'nvim-keymaps.md',
+          title = 'NVIM Keymaps',
+          command_name = 'NVIMKeymapsNote',
         },
       },
     },
@@ -1029,12 +1063,24 @@ vim.keymap.set('n', '<leader>gg', require('global-note').toggle_note, {
   silent = true,
 })
 
+-- Open my main tasks note, the Global task
 vim.keymap.set('n', '<leader>tt', function() require('global-note').toggle_note 'todo' end, {
-  desc = '[G]lobal note',
+  desc = 'Global [t]asks note',
   noremap = true,
   silent = true,
 })
 
+vim.keymap.set('n', '<leader>tk', function() require('global-note').toggle_note 'keymaps' end, {
+  desc = 'Global [k]eymaps note',
+  noremap = true,
+  silent = true,
+})
+
+vim.keymap.set('n', '<leader>td', function() require('global-note').toggle_note 'note_of_the_day' end, {
+  desc = 'Global note of the [d]ay',
+  noremap = true,
+  silent = true,
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 vim.opt.foldmethod = 'expr'
@@ -1044,3 +1090,13 @@ vim.opt.foldlevel = 99
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
+
+-- Go the definition of the symbol
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+
+-- Format the current buffer
+vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
+
+require('presenterm').setup {
+  default_keybindings = true,
+}
