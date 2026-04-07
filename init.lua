@@ -267,9 +267,6 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added via a link or github org/name. To run setup automatically, use `opts = {}`
-  { 'tiagovla/scope.nvim', config = true },
-  { 'NMAC427/guess-indent.nvim', opts = {} },
-  { 'mg979/vim-visual-multi' },
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -319,7 +316,9 @@ require('lazy').setup({
   require 'kickstart.plugins.which_key',
   require 'kickstart.plugins.presenterm',
   require 'kickstart.plugins.todo_comments',
-
+  require 'kickstart.plugins.guess_indent',
+  require 'kickstart.plugins.scope',
+  require 'kickstart.plugins.visual_multi',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
