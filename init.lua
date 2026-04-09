@@ -408,3 +408,14 @@ vim.keymap.set('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual(
 vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
   desc = 'Search on current file',
 })
+
+vim.opt.wildignore:append {
+  '.git',
+  'node_modules',
+  'dist',
+  '*.o',
+  '*.swp',
+}
+
+vim.g.netrw_list_hide = vim.o.wildignore
+vim.g.netrw_hide = 1
