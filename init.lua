@@ -319,6 +319,7 @@ require('lazy').setup({
   require 'kickstart.plugins.guess_indent',
   require 'kickstart.plugins.scope',
   require 'kickstart.plugins.visual_multi',
+  require 'kickstart.plugins.spectre',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
@@ -394,3 +395,16 @@ vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
 require('presenterm').setup {
   default_keybindings = true,
 }
+
+vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
+  desc = 'Toggle Spectre',
+})
+vim.keymap.set('n', '<leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
+  desc = 'Search current word',
+})
+vim.keymap.set('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
+  desc = 'Search current word',
+})
+vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
+  desc = 'Search on current file',
+})
