@@ -410,6 +410,7 @@ vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search(
 })
 
 vim.opt.wildignore:append {
+  '.DS_Store',
   '.git',
   'node_modules',
   'dist',
