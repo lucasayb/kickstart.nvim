@@ -352,19 +352,6 @@ require('lazy').setup({
   },
 })
 
-vim.keymap.set('n', '<leader>gg', require('global-note').toggle_note, {
-  desc = '[G]lobal note',
-  noremap = true,
-  silent = true,
-})
-
--- Open my main tasks note, the Global task
-vim.keymap.set('n', '<leader>tt', function() require('global-note').toggle_note 'todo' end, {
-  desc = 'Global [t]asks note',
-  noremap = true,
-  silent = true,
-})
-
 vim.keymap.set('n', '<leader>tk', function() require('global-note').toggle_note 'keymaps' end, {
   desc = 'Global [k]eymaps note',
   noremap = true,
@@ -376,6 +363,7 @@ vim.keymap.set('n', '<leader>td', function() require('global-note').toggle_note 
   noremap = true,
   silent = true,
 })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 vim.opt.foldmethod = 'expr'
