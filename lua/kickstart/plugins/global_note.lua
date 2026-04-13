@@ -27,7 +27,8 @@ return {
   opts = {
     directory = '~/Documents/Notes/',
     additional_presets = {
-      note_of_the_day = { filename = get_latest_note_name(), title = 'Note of the day', command_name = 'NoteDay' },
+      latest_note = { filename = get_latest_note_name(), title = 'Latest note', command_name = 'LatestNote' },
+      todays_note = { filename = os.date '%Y/%m/%Y-%m-%d.md', title = "Today's note", command_name = 'TodayNote' },
       keymaps = { filename = 'nvim-keymaps.md', title = 'NVIM Keymaps', command_name = 'NVIMKeymapsNote' },
     },
   },

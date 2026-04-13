@@ -358,8 +358,14 @@ vim.keymap.set('n', '<leader>tk', function() require('global-note').toggle_note 
   silent = true,
 })
 
-vim.keymap.set('n', '<leader>td', function() require('global-note').toggle_note 'note_of_the_day' end, {
-  desc = 'Global note of the [d]ay',
+vim.keymap.set('n', '<leader>td', function() require('global-note').toggle_note 'latest_note' end, {
+  desc = 'Global latest note',
+  noremap = true,
+  silent = true,
+})
+
+vim.keymap.set('n', '<leader>ty', function() require('global-note').toggle_note 'todays_note' end, {
+  desc = 'Global note of the da[y]',
   noremap = true,
   silent = true,
 })
