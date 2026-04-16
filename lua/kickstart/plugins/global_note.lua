@@ -6,6 +6,7 @@ local function get_latest_note_name()
     '/projects/',
     '/nvim-keymaps.md',
     '/personal-todos.md',
+    '/phrases.md',
   }
 
   files = vim.tbl_filter(function(file)
