@@ -320,6 +320,8 @@ require('lazy').setup({
   require 'kickstart.plugins.scope',
   require 'kickstart.plugins.visual_multi',
   require 'kickstart.plugins.spectre',
+  require 'kickstart.plugins.img_clip',
+  require 'kickstart.plugins.image',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
