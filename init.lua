@@ -370,6 +370,12 @@ vim.keymap.set('n', '<leader>ty', function() require('global-note').toggle_note 
   silent = true,
 })
 
+vim.keymap.set('n', '<leader>tn', function() require('global-note').toggle_note 'tomorrow_note' end, {
+  desc = 'Global [n]ote of tomorrow',
+  noremap = true,
+  silent = true,
+})
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 vim.opt.foldmethod = 'expr'

@@ -23,6 +23,13 @@ local function get_latest_note_name()
   return files[#files]:gsub(base .. '/', '')
 end
 
+local function get_tomorrow_note_name()
+  local tomorrow = os.date '*t'
+  if type(tomorrow) ~= 'table' then return nil end
+  tomorrow.day = tomorrow.day + 1
+  return os.date('%Y/%m/%Y-%m-%d.md', os.time(tomorrow))
+end
+
 return {
   'backdround/global-note.nvim',
   opts = {
@@ -30,6 +37,7 @@ return {
     additional_presets = {
       latest_note = { filename = get_latest_note_name(), title = 'Latest note', command_name = 'LatestNote' },
       todays_note = { filename = os.date '%Y/%m/%Y-%m-%d.md', title = "Today's note", command_name = 'TodayNote' },
+      tomorrow_note = { filename = get_tomorrow_note_name(), title = 'Tomorrow note', command_name = 'TomorrowNote' },
       keymaps = { filename = 'nvim-keymaps.md', title = 'NVIM Keymaps', command_name = 'NVIMKeymapsNote' },
     },
   },
