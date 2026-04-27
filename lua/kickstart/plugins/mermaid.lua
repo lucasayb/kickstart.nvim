@@ -1,0 +1,3 @@
+return {
+  'kevalin/mermaid.nvim',
+}
