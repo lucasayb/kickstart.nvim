@@ -373,6 +373,12 @@ vim.keymap.set('n', '<leader>ty', function() require('global-note').toggle_note 
   silent = true,
 })
 
+vim.keymap.set('n', '<leader>tb', function() require('global-note').toggle_note 'yesterdays_note' end, {
+  desc = 'Global note of the [b]ack day',
+  noremap = true,
+  silent = true,
+})
+
 vim.keymap.set('n', '<leader>tn', function() require('global-note').toggle_note 'tomorrow_note' end, {
   desc = 'Global [n]ote of tomorrow',
   noremap = true,
