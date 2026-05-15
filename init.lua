@@ -302,7 +302,6 @@ require('lazy').setup({
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
-  require 'kickstart.plugins.global_note',
   require 'kickstart.plugins.hipatterns',
   require 'kickstart.plugins.telescope',
   require 'kickstart.plugins.lsp',
@@ -355,31 +354,83 @@ require('lazy').setup({
   },
 })
 
-vim.keymap.set('n', '<leader>tk', function() require('global-note').toggle_note 'keymaps' end, {
+-- Notes keybindings
+local notes_dir = vim.fn.expand '~/Documents/Notes/'
+
+local function open_note(filename)
+  if not filename then
+    vim.notify('No note found', vim.log.levels.WARN)
+    return
+  end
+  vim.cmd('e ' .. notes_dir .. filename)
+end
+
+local function get_latest_note_name()
+  local base = vim.fn.expand '~/Documents/Notes'
+  local files = vim.fn.glob(base .. '/**/*.md', true, true)
+
+  local excluded = {
+    '/projects/',
+    '/nvim-keymaps.md',
+    '/personal-todos.md',
+    '/phrases.md',
+  }
+
+  files = vim.tbl_filter(function(file)
+    for _, dir in ipairs(excluded) do
+      if file:find(dir, 1, true) then return false end
+    end
+    return true
+  end, files)
+
+  if #files == 0 then return nil end
+
+  table.sort(files)
+
+  return files[#files]:gsub(base .. '/', '')
+end
+
+local function get_tomorrow_note_name()
+  local tomorrow = os.date '*t'
+  if type(tomorrow) ~= 'table' then return nil end
+  tomorrow.day = tomorrow.day + 1
+  return os.date('%Y/%m/%Y-%m-%d.md', os.time(tomorrow))
+end
+
+local function get_todays_note_name() return os.date '%Y/%m/%Y-%m-%d.md' end
+
+local function get_yesterdays_note_name()
+  local yesterday = os.date '*t'
+  if type(yesterday) ~= 'table' then return nil end
+  yesterday.day = yesterday.day - 1
+  return os.date('%Y/%m/%Y-%m-%d.md', os.time(yesterday))
+end
+
+vim.keymap.set('n', '<leader>tk', function() open_note 'nvim-keymaps.md' end, {
   desc = 'Global [k]eymaps note',
   noremap = true,
   silent = true,
 })
 
-vim.keymap.set('n', '<leader>td', function() require('global-note').toggle_note 'latest_note' end, {
+vim.keymap.set('n', '<leader>td', function() open_note(get_latest_note_name()) end, {
   desc = 'Global latest note',
   noremap = true,
   silent = true,
 })
 
-vim.keymap.set('n', '<leader>ty', function() require('global-note').toggle_note 'todays_note' end, {
+vim.keymap.set('n', '<leader>ty', function() open_note(get_todays_note_name()) end, {
   desc = 'Global note of the da[y]',
   noremap = true,
   silent = true,
 })
 
-vim.keymap.set('n', '<leader>tb', function() require('global-note').toggle_note 'yesterdays_note' end, {
+vim.keymap.set('n', '<leader>tb', function() open_note(get_yesterdays_note_name()) end, {
   desc = 'Global note of the [b]ack day',
   noremap = true,
   silent = true,
 })
 
-vim.keymap.set('n', '<leader>tn', function() require('global-note').toggle_note 'tomorrow_note' end, {
+vim.keymap.set('n', '<leader>tn', function() open_note(get_tomorrow_note_name()) end, {
   desc = 'Global [n]ote of tomorrow',
   noremap = true,
   silent = true,
