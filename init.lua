@@ -91,6 +91,7 @@ vim.g.VM_maps = {
   ['Select All'] = '<Leader>A',
   ['Find Under'] = '<Leader>n',
   ['Find Subword Under'] = '<Leader>n',
+  ['Start Regex Search'] = '<Leader>/',
 }
 
 -- let g:VM_maps = {}
