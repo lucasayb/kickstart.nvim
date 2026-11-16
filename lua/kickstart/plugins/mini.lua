@@ -27,7 +27,12 @@ return { -- Collection of various small independent plugins/modules
     -- default behavior. For example, here we set the section for
     -- cursor location to LINE:COLUMN
     ---@diagnostic disable-next-line: duplicate-set-field
-    statusline.section_location = function() return '%2l:%-2v' end
+    statusline.section_location = function()
+      local loc = '%2l:%-2v'
+      if not vim.tbl_contains({ 'markdown', 'text', 'gitcommit' }, vim.bo.filetype) then return loc end
+      local wc = vim.fn.wordcount()
+      return string.format('%dw │ %s', wc.visual_words or wc.words, loc)
+    end
 
     -- ... and there is more!
     --  Check out: https://github.com/nvim-mini/mini.nvim
