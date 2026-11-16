@@ -356,18 +356,24 @@ require('lazy').setup({
 })
 
 -- Notes keybindings
-local notes_dir = vim.fn.expand '~/Documents/Notes/'
+-- Set NOTES_DIR in your shell (e.g. export NOTES_DIR="$HOME/Documents/Notes")
+local notes_dir = vim.env.NOTES_DIR and vim.fn.expand(vim.env.NOTES_DIR):gsub('/+$', '') or nil
 
 local function open_note(filename)
+  if not notes_dir then
+    vim.notify('NOTES_DIR is not set', vim.log.levels.ERROR)
+    return
+  end
   if not filename then
     vim.notify('No note found', vim.log.levels.WARN)
     return
   end
-  vim.cmd('e ' .. notes_dir .. filename)
+  vim.cmd('e ' .. vim.fn.fnameescape(notes_dir .. '/' .. filename))
 end
 
 local function get_latest_note_name()
-  local base = vim.fn.expand '~/Documents/Notes'
+  local base = notes_dir
+  if not base then return nil end
   local files = vim.fn.glob(base .. '/**/*.md', true, true)
 
   local excluded = {
