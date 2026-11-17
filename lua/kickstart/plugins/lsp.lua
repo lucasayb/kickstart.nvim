@@ -151,10 +151,12 @@ return {
       'typescript-language-server',
       'lua-language-server', -- Lua Language server
       'stylua', -- Used to format Lua code
-      'gopls',
       'json-lsp',
       -- You can add other tools here that you want Mason to install
     }
+
+    -- gopls is built with `go install`, so only ask Mason for it when Go is available
+    if vim.fn.executable 'go' == 1 then table.insert(ensure_installed, 'gopls') end
 
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
